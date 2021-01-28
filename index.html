@@ -48,7 +48,7 @@
                            <button class="btn btn-default" id="casePlus-btn-press"><i class="fas fa-plus"></i></button>
 
                         </div>
-                        <h5>$59</h5>
+                        <h5>$<span id="case-er-price">59</span></h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -118,43 +118,51 @@
       const plusBtn = document.getElementById("plus-btn-press");
      plusBtn.addEventListener("click", function(){
        
-      const koytaPhn = addition("phn-koyta-niba");
-         document.getElementById("phn-koyta-niba").value = koytaPhn;
+      const koytaPhn = addition("phn-koyta-niba","phn-er-price");
+         document.getElementById("phn-koyta-niba").value = koytaPhn[0];
+         document.getElementById("phn-er-price").innerText = koytaPhn[1];
          
      })
      // case er amount add kora
+    
+     const perCasePrice = parseFloat(document.getElementById("case-er-price").innerText);
+
      const casePlusBtn = document.getElementById("casePlus-btn-press");
      casePlusBtn.addEventListener("click", function(){
-      const koytaCase = addition("case-koyta-niba");
-         document.getElementById("case-koyta-niba").value = koytaCase;
+      const koytaCase = addition("case-koyta-niba", "case-er-price");
+         document.getElementById("case-koyta-niba").value = koytaCase[0];
+         document.getElementById("case-er-price").innerText= koytaCase[1];
 
      })
 
-     function addition(id){
-      const amountOfPhn = parseFloat(document.getElementById(id).value);
-        let phnAmount = amountOfPhn + 1;
-        
-        function priceIncrease(id){
-         const price = parseFloat(document.getElementById(id).innerText);
-         let totalPhnPrice = phnAmount*  perPhnPrice ;
-         return totalPhnPrice;
-          }
-          const phnPrice =  priceIncrease("phn-er-price");
-         document.getElementById("phn-er-price").innerText = phnPrice;
-         return phnAmount;
-      }
-   //   function priceIncrease(id, addition){
-   //      const price = parseFloat(document.getElementById(id).innerText);
-   //      let phnTotalPrice = price;
-   //      if(parseFloat(addition)==0){
-   //       phnTotalPrice = 0;
-   //      }
-   //      else{
-   //       phnTotalPrice = price* parseFloat(addition);
-   //      }
-   //      return phnTotalPrice;
-   //   }
+     function addition(id1,id2){
+      const amountOfItems = parseFloat(document.getElementById(id1).value);
+        let amount = amountOfItems + 1;
+        let totalPrice=0;
+       
+      //   const phnPrice =  priceIncrease("phn-er-price");
+      //    document.getElementById("phn-er-price").innerText = phnPrice;
 
+      //    const casePrice =  priceIncrease("case-er-price");
+      //    document.getElementById("case-er-price").innerText = casePrice;
+
+        
+         const price = parseFloat(document.getElementById(id2).innerText);
+           if (id2 == "phn-er-price"){
+            const totalPhnPrice = amount*  perPhnPrice ;
+            totalPrice = totalPhnPrice;
+          }
+         else{
+           const totalCasePrice = amount*  perCasePrice ;
+            totalPrice = totalCasePrice;
+         
+         }
+         return [amount, totalPrice];
+           }
+         
+        
+   
+    
      
 
    </script>
