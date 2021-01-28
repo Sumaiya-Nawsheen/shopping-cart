@@ -25,8 +25,8 @@
 
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
+                           <button class="btn btn-default" id="minus-btn-press"><i class="fas fa-minus"></i></button>
+                           <input type="text" id="phn-komao" class="form-control text-center" value="1">
                            <button class="btn btn-default"><i class="fas fa-plus"></i></button>
                         </div>
                         <h5>$1219</h5>
@@ -77,6 +77,27 @@
          </div>
       </div>
    </section>
+
+   <!-- script -->
+   <script>
+      const minusBtn = document.getElementById("minus-btn-press") ;
+      minusBtn.addEventListener("click", function(){
+
+        const value =  substraction("phn-komao");  
+       document.getElementById("phn-komao").value = value;
+         
+      })
+
+      function substraction(id){
+         let phnKomao = parseFloat(document.getElementById(id).value);
+         let amount =0;
+         if( amount>=0){
+            let amount = phnKomao-1 ;
+         }
+        
+             return amount;    
+      }
+   </script>
 </body>
 
 </html>
