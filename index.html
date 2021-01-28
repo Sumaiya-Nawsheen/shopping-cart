@@ -26,10 +26,10 @@
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
                            <button class="btn btn-default" id="minus-btn-press"><i class="fas fa-minus"></i></button>
-                           <input type="text" id="phn-komao" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <input type="text" id="phn-koyta-niba" class="form-control text-center" value="1">
+                           <button class="btn btn-default" id="plus-btn-press"><i class="fas fa-plus"></i></button>
                         </div>
-                        <h5>$1219</h5>
+                        <h5>$ <span id="phn-er-price">1219</span></h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -43,9 +43,9 @@
                      </div>
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button class="btn btn-default" id="caseMinus-btn-press"><i class="fas fa-minus"></i></button>
+                           <input type="text" id="case-koyta-niba" class="form-control text-center" value="1">
+                           <button class="btn btn-default" id="casePlus-btn-press"><i class="fas fa-plus"></i></button>
 
                         </div>
                         <h5>$59</h5>
@@ -80,23 +80,62 @@
 
    <!-- script -->
    <script>
-      const minusBtn = document.getElementById("minus-btn-press") ;
-      minusBtn.addEventListener("click", function(){
 
-        const value =  substraction("phn-komao");  
-       document.getElementById("phn-komao").value = value;
-         
+      // amount subs korbo
+      // phn er amount minus kora
+      const minusBtn = document.getElementById("minus-btn-press");
+      minusBtn.addEventListener("click", function () {
+
+         const value = substraction("phn-koyta-niba");
+         document.getElementById("phn-koyta-niba").value = value;
+     
+
+
+      })
+    // case er amount minus kora
+    const caseMinusBtn = document.getElementById("caseMinus-btn-press");
+    caseMinusBtn.addEventListener("click", function () {
+
+         const caseValue = substraction("case-koyta-niba");
+         document.getElementById("case-koyta-niba").value = caseValue;
+
       })
 
-      function substraction(id){
-         let phnKomao = parseFloat(document.getElementById(id).value);
-         let amount =0;
-         if( amount>=0){
-            let amount = phnKomao-1 ;
+
+      function substraction(id) {
+         const phnKomao = parseFloat(document.getElementById(id).value);
+         let amount = phnKomao;
+         if(amount>0){
+            amount = phnKomao - 1;
          }
-        
-             return amount;    
+         
+         return amount;
       }
+
+      //phn er  amount add korbo
+      const plusBtn = document.getElementById("plus-btn-press");
+     plusBtn.addEventListener("click", function(){
+      const koytaPhn = addition("phn-koyta-niba");
+         document.getElementById("phn-koyta-niba").value = koytaPhn;
+
+     })
+     // case er amount add kora
+     const casePlusBtn = document.getElementById("casePlus-btn-press");
+     casePlusBtn.addEventListener("click", function(){
+      const koytaCase = addition("case-koyta-niba");
+         document.getElementById("case-koyta-niba").value = koytaCase;
+
+     })
+
+     function addition(id){
+      const amountOfPhn = parseFloat(document.getElementById(id).value);
+        let phnAmount = amountOfPhn + 1;
+         return phnAmount;
+      }
+     
+
+     
+
    </script>
 </body>
 
