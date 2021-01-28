@@ -43,7 +43,8 @@
                      </div>
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default" id="caseMinus-btn-press"><i class="fas fa-minus"></i></button>
+                           <button class="btn btn-default" id="caseMinus-btn-press"><i
+                                 class="fas fa-minus"></i></button>
                            <input type="text" id="case-koyta-niba" class="form-control text-center" value="1">
                            <button class="btn btn-default" id="casePlus-btn-press"><i class="fas fa-plus"></i></button>
 
@@ -64,9 +65,9 @@
                      </div>
 
                      <div class="col-md-4 status">
-                        <h5>$1,278</h5>
-                        <h5>$0</h5>
-                        <h5>$1,278</h5>
+                        <h5>$<span id="subTotal">1,278</span></h5>
+                        <h5>$<span id="taxPercentage"> 5</span> %</h5>
+                        <h5>$<span id="finalTotal">1,278</span></h5>
                      </div>
                   </div>
                </div>
@@ -80,90 +81,104 @@
 
    <!-- script -->
    <script>
+      const perPhnPrice = parseFloat(document.getElementById("phn-er-price").innerText);//pore price change hoye jay, so age initialize kore nilam
+      const perCasePrice = parseFloat(document.getElementById("case-er-price").innerText);//pore price change hoye jay, so age initialize kore nilam
+      const taxPercentage = document.getElementById("taxPercentage").innerText;
 
-      // amount subs korbo
+      // //when amount of items will decrease , quantity & price will be updated 
       // phn er amount minus kora
       const minusBtn = document.getElementById("minus-btn-press");
       minusBtn.addEventListener("click", function () {
 
-         const value = substraction("phn-koyta-niba");
-         document.getElementById("phn-koyta-niba").value = value;
-     
+         const value = substraction("phn-koyta-niba", "phn-er-price");
+         document.getElementById("phn-koyta-niba").value = value[0];
+         document.getElementById("phn-er-price").innerText = value[1];
+         total();
+      })
+      // case er amount minus kora
+      const caseMinusBtn = document.getElementById("caseMinus-btn-press");
+      caseMinusBtn.addEventListener("click", function () {
 
+         const caseValue = substraction("case-koyta-niba", "case-er-price");
+         document.getElementById("case-koyta-niba").value = caseValue[0];
+         document.getElementById("case-er-price").innerText = caseValue[1];
+         total();
 
       })
-    // case er amount minus kora
-    const caseMinusBtn = document.getElementById("caseMinus-btn-press");
-    caseMinusBtn.addEventListener("click", function () {
 
-         const caseValue = substraction("case-koyta-niba");
-         document.getElementById("case-koyta-niba").value = caseValue;
-
-      })
-
-
-      function substraction(id) {
-         const phnKomao = parseFloat(document.getElementById(id).value);
-         let amount = phnKomao;
-         if(amount>0){
-            amount = phnKomao - 1;
+      function substraction(id1, id2) {
+         const amountOfItems = parseFloat(document.getElementById(id1).value);
+         let amount = amountOfItems;
+         let totalPrice = 0;
+         if (amount > 0) {
+            amount = amountOfItems - 1;
          }
-         
-         return amount;
-      }
-
-      //phn er  amount add korbo
-      const perPhnPrice = parseFloat(document.getElementById("phn-er-price").innerText);
-
-      const plusBtn = document.getElementById("plus-btn-press");
-     plusBtn.addEventListener("click", function(){
-       
-      const koytaPhn = addition("phn-koyta-niba","phn-er-price");
-         document.getElementById("phn-koyta-niba").value = koytaPhn[0];
-         document.getElementById("phn-er-price").innerText = koytaPhn[1];
-         
-     })
-     // case er amount add kora
-    
-     const perCasePrice = parseFloat(document.getElementById("case-er-price").innerText);
-
-     const casePlusBtn = document.getElementById("casePlus-btn-press");
-     casePlusBtn.addEventListener("click", function(){
-      const koytaCase = addition("case-koyta-niba", "case-er-price");
-         document.getElementById("case-koyta-niba").value = koytaCase[0];
-         document.getElementById("case-er-price").innerText= koytaCase[1];
-
-     })
-
-     function addition(id1,id2){
-      const amountOfItems = parseFloat(document.getElementById(id1).value);
-        let amount = amountOfItems + 1;
-        let totalPrice=0;
-       
-      //   const phnPrice =  priceIncrease("phn-er-price");
-      //    document.getElementById("phn-er-price").innerText = phnPrice;
-
-      //    const casePrice =  priceIncrease("case-er-price");
-      //    document.getElementById("case-er-price").innerText = casePrice;
-
-        
          const price = parseFloat(document.getElementById(id2).innerText);
-           if (id2 == "phn-er-price"){
-            const totalPhnPrice = amount*  perPhnPrice ;
+         if (id2 == "phn-er-price") {
+            const totalPhnPrice = amount * perPhnPrice;
             totalPrice = totalPhnPrice;
-          }
-         else{
-           const totalCasePrice = amount*  perCasePrice ;
+         }
+         else {
+            const totalCasePrice = amount * perCasePrice;
             totalPrice = totalCasePrice;
-         
          }
          return [amount, totalPrice];
-           }
-         
-        
-   
-    
+      }
      
+      //when amount of items will increase , quantity & price will be updated 
+      //phn er  amount barabo
+
+      const plusBtn = document.getElementById("plus-btn-press");
+      plusBtn.addEventListener("click", function () {
+         const koytaPhn = addition("phn-koyta-niba", "phn-er-price");
+         document.getElementById("phn-koyta-niba").value = koytaPhn[0];
+         document.getElementById("phn-er-price").innerText = koytaPhn[1];
+         total();
+      })
+
+      // case er amount barabo
+      const casePlusBtn = document.getElementById("casePlus-btn-press");
+      casePlusBtn.addEventListener("click", function () {
+         const koytaCase = addition("case-koyta-niba", "case-er-price");
+         document.getElementById("case-koyta-niba").value = koytaCase[0];
+         document.getElementById("case-er-price").innerText = koytaCase[1];
+         total();
+
+      })
+
+      function addition(id1, id2) {
+         const amountOfItems = parseFloat(document.getElementById(id1).value);
+         let amount = amountOfItems + 1;
+         let totalPrice = 0;
+         const price = parseFloat(document.getElementById(id2).innerText);
+         if (id2 == "phn-er-price") {
+            const totalPhnPrice = amount * perPhnPrice;
+            totalPrice = totalPhnPrice;
+         }
+         else {
+            const totalCasePrice = amount * perCasePrice;
+            totalPrice = totalCasePrice;
+         }
+         return [amount, totalPrice];
+      }
+
+// subtotal, tax, total calculation
+      function total (){
+         const subTotalId = document.getElementById("subTotal").innerText;
+         const subtotal = parseFloat(document.getElementById("phn-er-price").innerText)+ parseFloat(document.getElementById("case-er-price").innerText);
+         document.getElementById("subTotal").innerText = subtotal;
+
+         const taxPercent = document.getElementById("taxPercentage").innerText;
+         const taxAdded = subtotal* (taxPercentage/100);
+        
+         const finalTotalId =  document.getElementById("finalTotal").innerText;
+        const finalTotal = subtotal + taxAdded;
+        document.getElementById("finalTotal").innerText = finalTotal;
+          
+      }
+     
+   
+
 
    </script>
 </body>
